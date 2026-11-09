@@ -6,9 +6,9 @@
   const $ = id => root.querySelector('#' + id);
   const W = 1120, H = 620, MONTH_SECONDS = 5;
   const DIFFICULTIES = {
-    easy:   {label:'Легко', goal:1000000,   cost:100000, start:200000},
-    normal: {label:'Нормально', goal:5000000, cost:250000, start:500000},
-    hard:   {label:'Трудно', goal:100000000, cost:500000, start:1000000}
+    easy:   {label:'Легко', goal:1000000,   cost:100000, start:300000},
+    normal: {label:'Нормально', goal:5000000, cost:250000, start:750000},
+    hard:   {label:'Трудно', goal:100000000, cost:500000, start:1500000}
   };
   const fmt = n => Math.round(n).toLocaleString('ru-RU') + ' ₽';
   const clamp = (v,low,high) => Math.max(low,Math.min(high,v));
@@ -467,7 +467,7 @@ let quizBank920 = [];
     if(level==='senior')return [drawQuestion(null,null,['senior','middleplus']),drawQuestion(null,'code',['senior','middleplus']),drawQuestion(null,Math.random()<.5?'design':'incident',['senior','middleplus'])];
     return [drawQuestion(null,null,['lead','senior']),drawQuestion(null,'code',['senior','middleplus']),drawQuestion(null,'incident',['lead','senior']),drawQuestion(null,'design',['lead','senior','middleplus'])];
   }
-  function questionSeconds(q){const basic=q.kind==='code'?54:q.kind==='incident'?58:q.kind==='design'?64:45;return basic+(q.q.length>115?12:0)+(Math.max(...q.a.map(x=>x.length))>150?12:0);}
+  function questionSeconds(q){const basic=q.kind==='code'?120:q.kind==='incident'?100:q.kind==='design'?100:60;return basic+(q.q.length>115?12:0)+(Math.max(...q.a.map(x=>x.length))>150?12:0);}
   function startInterview(id){
     if(mode!=='running')return;
     const v=jobById(id);
@@ -531,7 +531,7 @@ let quizBank920 = [];
   function newMonth(){
     month++;
     let fired=null;
-    if(job && month-hiredAtMonth>=6){fired=job;job=null;hiredAtMonth=0;}
+    if(job && month-hiredAtMonth>=4){fired=job;job=null;hiredAtMonth=0;}
     const earned=job?job.paidSalary:0;
     const delta=earned-currentCost();cash+=delta;
     addLog((earned?`Зарплата ${fmt(earned)}, `:'Без зарплаты, ')+`расходы ${fmt(currentCost())}. Итого ${delta>=0?'+':''}${fmt(delta)}.`,delta>=0?'good':'bad');
