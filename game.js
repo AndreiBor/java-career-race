@@ -5,10 +5,13 @@
   root.dataset.initialized = 'true';
   const $ = id => root.querySelector('#' + id);
   const W = 1120, H = 620, MONTH_SECONDS = 5;
+  const AI_REPLACEMENT_MONTHS = 4;
+  const THEORY_ANSWER_SECONDS = 60;
+  const PRACTICAL_ANSWER_SECONDS = 100;
   const DIFFICULTIES = {
-    easy:   {label:'Легко', goal:1000000,   cost:100000, start:200000},
-    normal: {label:'Нормально', goal:5000000, cost:250000, start:500000},
-    hard:   {label:'Трудно', goal:100000000, cost:500000, start:1000000}
+    easy:   {label:'Легко', goal:1000000,   cost:100000, start:300000},
+    normal: {label:'Нормально', goal:5000000, cost:250000, start:750000},
+    hard:   {label:'Трудно', goal:100000000, cost:500000, start:1500000}
   };
   const fmt = n => Math.round(n).toLocaleString('ru-RU') + ' ₽';
   const clamp = (v,low,high) => Math.max(low,Math.min(high,v));
@@ -246,15 +249,15 @@ let quizBank920 = [];
     if(!job){
       badge.textContent='В ПОИСКЕ';badge.className='jg-badge jg-badge-muted';
       info.textContent='Ищите светящиеся вакансии. Вы можете свободно перемещаться по карте или нажать «Бежать».';
-      bar.style.width='0%';hint.textContent='Каждые 6 игровых месяцев на одной позиции ИИ заменяет сотрудника.';
+      bar.style.width='0%';hint.textContent=`Каждые ${AI_REPLACEMENT_MONTHS} игровых месяца на одной позиции ИИ заменяет сотрудника.`;
       hint.classList.remove('jg-job-urgent');
     }else{
       const age=month-hiredAtMonth;
       badge.textContent='В КОМАНДЕ';badge.className='jg-badge jg-badge-active';
       info.innerHTML=`<div class="jg-job-name">${safe(companyById(job.companyId).name)}</div><div class="jg-job-small">${safe(job.roleName)} · <strong>${fmt(job.paidSalary)}/мес.</strong></div>`;
-      bar.style.width=clamp(age/6*100,0,100)+'%';
-      hint.textContent=age>=4?`До автоматизации ИИ осталось ${6-age} мес. Пора сменить работу.`:`На позиции ${age} из 6 месяцев.`;
-      hint.classList.toggle('jg-job-urgent',age>=4);
+      bar.style.width=clamp(age/AI_REPLACEMENT_MONTHS*100,0,100)+'%';
+      hint.textContent=age>=AI_REPLACEMENT_MONTHS-2?`До автоматизации ИИ осталось ${AI_REPLACEMENT_MONTHS-age} мес. Пора сменить работу.`:`На позиции ${age} из ${AI_REPLACEMENT_MONTHS} месяцев.`;
+      hint.classList.toggle('jg-job-urgent',age>=AI_REPLACEMENT_MONTHS-2);
     }
   }
   function renderStats(){
@@ -451,7 +454,7 @@ let quizBank920 = [];
         <div class="jg-rule"><b>Свободное движение</b><span>WASD, стрелки, клик или кнопки. Возле офиса нажмите E для интервью. Клик по вакансии — автобег.</span></div>
         <div class="jg-rule"><b>920 вопросов в банке · от 1 до 4 за интервью</b><span>Middle — 1; Middle+ — 2; Senior — 3; Tech Lead — 4.</span></div>
         <div class="jg-rule"><b>5 секунд = месяц</b><span>Зарплата минус расходы на жизнь. Во время собеседования часы стоят.</span></div>
-        <div class="jg-rule"><b>ИИ ждёт 6 месяцев</b><span>Если не перешли на новую позицию — потеряете работу и зарплату.</span></div>
+        <div class="jg-rule"><b>ИИ ждёт ${AI_REPLACEMENT_MONTHS} месяца</b><span>Если не перешли на новую позицию — потеряете работу и зарплату.</span></div>
       </div>`, 'intro');
     chooseDifficulty(difficulty);
   }
@@ -461,7 +464,7 @@ let quizBank920 = [];
       <p>Герой свободно перемещается по карте по WASD/стрелкам, экранным кнопкам или клику на местности. Нажмите на светящийся офис или «Бежать» возле оффера, чтобы герой сам прибежал. Подойдя к офису вручную, нажмите E или кнопку «Собеседование» под картой.</p>
       <p>Middle — 1 вопрос (160–250 тыс. ₽). Middle+ — 2 вопроса, включая код (250–350 тыс.). Senior — 3, включая инцидент/архитектуру (350–500 тыс.). Tech Lead — 4, включая System Design (500 тыс.–1 млн).</p>
       <p>Неправильный ответ останавливает попытку: появляется верный вариант и разбор. Весь игровой мир стоит, пока открыто интервью или разбор.</p>
-      <p>Каждый месяц занимает 5 секунд. Траты: <b>${fmt(currentCost())}</b>, цель: <b>${fmt(currentGoal())}</b>. Через 6 месяцев на одной работе сотрудника вытесняет ИИ. После накопления цели можно открыть стартап.</p>
+      <p>Каждый месяц занимает 5 секунд. Траты: <b>${fmt(currentCost())}</b>, цель: <b>${fmt(currentGoal())}</b>. Через ${AI_REPLACEMENT_MONTHS} месяца на одной работе сотрудника вытесняет ИИ. После накопления цели можно открыть стартап.</p>
       <div class="jg-dialog-actions"><button type="button" class="jg-btn jg-btn-primary" data-action="continue">Вернуться в город</button></div>`,'help');
   }
   function shuffle(arr){
@@ -483,7 +486,7 @@ let quizBank920 = [];
     if(level==='senior')return [drawQuestion(null,null,['senior','middleplus']),drawQuestion(null,'code',['senior','middleplus']),drawQuestion(null,Math.random()<.5?'design':'incident',['senior','middleplus'])];
     return [drawQuestion(null,null,['lead','senior']),drawQuestion(null,'code',['senior','middleplus']),drawQuestion(null,'incident',['lead','senior']),drawQuestion(null,'design',['lead','senior','middleplus'])];
   }
-  function questionSeconds(q){const basic=q.kind==='code'?54:q.kind==='incident'?58:q.kind==='design'?64:45;return basic+(q.q.length>115?12:0)+(Math.max(...q.a.map(x=>x.length))>150?12:0);}
+  function questionSeconds(q){return q.kind==='theory'?THEORY_ANSWER_SECONDS:PRACTICAL_ANSWER_SECONDS;}
   function startInterview(id){
     if(mode!=='running')return;
     const v=jobById(id);
@@ -525,7 +528,7 @@ let quizBank920 = [];
         <h3>Оффер из <em>${safe(c.name)}!</em></h3>
         <p>Вы правильно ответили на все ${plan.length} ${plan.length===1?'вопрос':plan.length===2?'вопроса':'вопроса'} и получили новую работу.</p>
         <div class="jg-dialog-info"><b>${safe(v.roleName)}</b><br>Зарплата: <b>${fmt(v.salary)} / мес.</b><br>Переходов/трудоустройств: <b>${skill-1}</b>.</div>
-        <p>Не забывайте: через 6 игровых месяцев на одной позиции приходит ИИ.</p>
+        <p>Не забывайте: через ${AI_REPLACEMENT_MONTHS} игровых месяца на одной позиции приходит ИИ.</p>
         <div class="jg-dialog-actions"><button type="button" class="jg-btn jg-btn-primary" data-action="continue">Вернуться на карту →</button></div>`,'result');
       return;
     }
@@ -547,7 +550,7 @@ let quizBank920 = [];
   function newMonth(){
     month++;
     let fired=null;
-    if(job && month-hiredAtMonth>=6){fired=job;job=null;hiredAtMonth=0;}
+    if(job && month-hiredAtMonth>=AI_REPLACEMENT_MONTHS){fired=job;job=null;hiredAtMonth=0;}
     const earned=job?job.paidSalary:0;
     const delta=earned-currentCost();cash+=delta;
     addLog((earned?`Зарплата ${fmt(earned)}, `:'Без зарплаты, ')+`расходы ${fmt(currentCost())}. Итого ${delta>=0?'+':''}${fmt(delta)}.`,delta>=0?'good':'bad');
@@ -567,13 +570,13 @@ let quizBank920 = [];
       renderOffices();
       showDialog(`<div class="jg-dialog-kicker">ПИСЬМО ОТ HR · AI AUTOMATION</div>
         <h3>Вас <em style="color:#ffb2ad">заменил ИИ.</em></h3>
-        <p>Вы проработали в <b>${safe(companyById(fired.companyId).name)}</b> шесть месяцев и не перешли на новую позицию. Компания автоматизировала вашу роль.</p>
+        <p>Вы проработали в <b>${safe(companyById(fired.companyId).name)}</b> ${AI_REPLACEMENT_MONTHS} месяца и не перешли на новую позицию. Компания автоматизировала вашу роль.</p>
         <div class="jg-dialog-alert">Доход теперь 0 ₽/мес., но расходы <b>${fmt(currentCost())}</b> продолжаются каждые 5 секунд.</div>
         <p>Найдите новую вакансию — карьеру можно продолжить.</p>
         <div class="jg-dialog-actions"><button type="button" class="jg-btn jg-btn-primary" data-action="continue">Искать работу →</button></div>`,'ai');
       return;
     }
-    if(job && month-hiredAtMonth>=4)toast(`ИИ близко: осталось ${6-(month-hiredAtMonth)} мес. Найдите новое место!`);
+    if(job && month-hiredAtMonth>=AI_REPLACEMENT_MONTHS-2)toast(`ИИ близко: осталось ${AI_REPLACEMENT_MONTHS-(month-hiredAtMonth)} мес. Найдите новое место!`);
   }
   function showStartupChoice(){
     showDialog(`<div class="jg-dialog-kicker">ФИНАНСОВАЯ ЦЕЛЬ ДОСТИГНУТА</div>
