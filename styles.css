@@ -1,0 +1,214 @@
+#jg-career-game { --jg-bg:#080f19; --jg-panel:#122132; --jg-line:#2b4054; --jg-ink:#eef6fa; --jg-muted:#94abbc; --jg-green:#67f6c7; --jg-blue:#80b9ff; --jg-red:#ff8f91; --jg-gold:#f8ce83; width:100%; max-width:1490px; margin:0 auto; color:var(--jg-ink); background:var(--jg-bg); border:1px solid #253b4b; border-radius:19px; font-family:Inter, -apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif; font-size:14px; line-height:1.45; isolation:isolate; position:relative; overflow:hidden; box-sizing:border-box; text-align:left; }
+  #jg-career-game * { box-sizing:border-box; }
+  #jg-career-game button, #jg-career-game input, #jg-career-game textarea { font:inherit; }
+  #jg-career-game button { cursor:pointer; }
+  #jg-career-game button:focus-visible, #jg-career-game textarea:focus-visible { outline:2px solid var(--jg-green); outline-offset:3px; }
+  #jg-career-game .jg-hidden { display:none !important; }
+  #jg-career-game .jg-shell { padding:24px; background:radial-gradient(ellipse at 4% 0%,#163246 0%,transparent 28%),radial-gradient(ellipse at 95% 15%,#1b263c 0%,transparent 38%),#091420; }
+  #jg-career-game .jg-header { display:flex; justify-content:space-between; align-items:flex-start; gap:16px; margin-bottom:22px; }
+  #jg-career-game .jg-kicker { display:flex; gap:9px; align-items:center; color:var(--jg-green); font-size:11px; letter-spacing:2px; font-weight:800; margin-bottom:9px; }
+  #jg-career-game .jg-kicker-dot { background:var(--jg-green); width:7px; height:7px; border-radius:50%; box-shadow:0 0 15px var(--jg-green); }
+  #jg-career-game .jg-kicker-separator { color:#566d7b; }
+  #jg-career-game h2 { color:#eff8fd; margin:0 0 6px; font-size:clamp(21px,2.1vw,30px); font-weight:850; letter-spacing:-.85px; line-height:1.16; }
+  #jg-career-game h2 span { color:var(--jg-green); }
+  #jg-career-game .jg-heading p { color:#acc0cf; margin:0; font-size:13px; }
+  #jg-career-game .jg-header-actions { display:flex; gap:8px; flex-shrink:0; }
+  #jg-career-game .jg-btn { display:inline-flex; align-items:center; justify-content:center; padding:10px 16px; border-radius:10px; border:1px solid transparent; font-size:13px; font-weight:750; transition:transform .15s,background .15s,border-color .15s; white-space:nowrap; }
+  #jg-career-game .jg-btn:hover:not(:disabled) { transform:translateY(-1px); }
+  #jg-career-game .jg-btn:disabled { cursor:default; opacity:.45; }
+  #jg-career-game .jg-btn-subtle { background:#15273a; color:#d7e8f0; border-color:#344a5d; }
+  #jg-career-game .jg-btn-subtle:hover { background:#1d3446; }
+  #jg-career-game .jg-btn-primary { background:linear-gradient(110deg,#69f5c8,#42cfbc); color:#052b2b; box-shadow:0 8px 25px #2eccb62b; }
+  #jg-career-game .jg-btn-primary:hover { background:#8af9da; }
+  #jg-career-game .jg-btn-danger { background:#3e2635; border-color:#8d5159; color:#ffbbbd; }
+  #jg-career-game .jg-stats { display:grid; grid-template-columns:1.28fr 1fr 1fr .9fr; gap:10px; margin-bottom:17px; }
+  #jg-career-game .jg-stat { border:1px solid #2b4052; background:#132436c9; border-radius:13px; padding:15px 17px 12px; min-width:0; }
+  #jg-career-game .jg-stat-money { border-color:#32665e; background:linear-gradient(115deg,#183838dc,#142539cf); }
+  #jg-career-game .jg-stat-title { color:#98afc0; font-size:10px; font-weight:800; letter-spacing:1.25px; margin-bottom:5px; }
+  #jg-career-game .jg-stat-number { font-weight:850; font-size:clamp(20px,2vw,28px); line-height:1.24; color:white; font-variant-numeric:tabular-nums; white-space:nowrap; }
+  #jg-career-game .jg-stat-number small { font-size:14px; color:#a0b5c3; }
+  #jg-career-game .jg-stat-number.jg-positive { color:var(--jg-green); }
+  #jg-career-game .jg-stat-number.jg-negative { color:#ffaaa5; }
+  #jg-career-game .jg-stat-desc { font-size:11px; color:#9eafc1; margin-top:5px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  #jg-career-game .jg-progress { margin-top:8px; height:5px; background:#304457; border-radius:20px; overflow:hidden; }
+  #jg-career-game .jg-progress-value { height:100%; width:18%; background:linear-gradient(90deg,#36ceae,#bcffda); border-radius:20px; transition:width .4s ease; }
+  #jg-career-game .jg-layout { display:grid; grid-template-columns:minmax(0,1fr) 287px; gap:15px; align-items:start; }
+  #jg-career-game .jg-map-section { min-width:0; border:1px solid #2b4054; border-radius:13px; overflow:hidden; background:#0d1a29; }
+  #jg-career-game .jg-section-toolbar { display:flex; justify-content:space-between; align-items:center; gap:9px; padding:12px 15px; min-height:48px; background:#142639; border-bottom:1px solid #2b4054; }
+  #jg-career-game .jg-section-toolbar>div:first-child { display:flex; gap:10px; align-items:center; min-width:0; }
+  #jg-career-game .jg-section-toolbar strong { font-size:11px; letter-spacing:1px; color:#e3eef5; white-space:nowrap; }
+  #jg-career-game .jg-toolbar-muted { color:#8da5b7; font-size:11px; white-space:nowrap; }
+  #jg-career-game .jg-live-dot { display:inline-block; flex:none; width:8px; height:8px; border-radius:50%; background:#66f2be; box-shadow:0 0 0 4px #65f6c31c; animation:jg-blink 1.6s ease-in-out infinite; }
+  #jg-career-game .jg-month-clock { display:flex; align-items:center; gap:10px; white-space:nowrap; }
+  #jg-career-game .jg-month-clock span { color:#a5b5c7; font-size:11px; }
+  #jg-career-game .jg-month-clock b { color:#f2d49a; font-size:14px; font-variant-numeric:tabular-nums; }
+  #jg-career-game .jg-map-window { width:100%; overflow-x:auto; overflow-y:hidden; scrollbar-color:#385c6a #122437; scrollbar-width:thin; overscroll-behavior-x:contain; }
+  #jg-career-game .jg-map-sizer { position:relative; width:1120px; height:620px; }
+  #jg-career-game .jg-map-world { position:absolute; top:0; left:0; width:1120px; height:620px; transform-origin:0 0; overflow:hidden; background:#0c1b2a; }
+  #jg-career-game .jg-map-svg, #jg-career-game .jg-route, #jg-career-game .jg-offices, #jg-career-game .jg-rivals { position:absolute; inset:0; }
+  #jg-career-game .jg-map-svg, #jg-career-game .jg-route { pointer-events:none; }
+  #jg-career-game .jg-route { z-index:2; }
+  #jg-career-game .jg-route line { stroke:#8afbd8; stroke-width:3; stroke-dasharray:7 10; stroke-linecap:round; opacity:.73; filter:drop-shadow(0 0 6px #4ce9bc); display:none; }
+  #jg-career-game .jg-offices { z-index:3; pointer-events:none; }
+  #jg-career-game .jg-office { position:absolute; transform:translate(-50%,-50%); width:188px; height:92px; padding:11px 13px; background:linear-gradient(145deg,#1c3043,#122437); border:1px solid #476073; border-radius:13px; text-align:left; color:#dcecf5; box-shadow:0 5px 15px #0005, inset 0 1px #fff1; pointer-events:auto; outline-offset:3px; transition:border-color .2s,box-shadow .2s,transform .2s; overflow:visible; }
+  #jg-career-game .jg-office:hover { transform:translate(-50%,-53%); border-color:#829eaf; }
+  #jg-career-game .jg-office:disabled { cursor:default; }
+  #jg-career-game .jg-office::before { content:""; position:absolute; top:11px; left:10px; width:3px; height:22px; border-radius:3px; background:var(--jg-office-accent,#7aa7c4); opacity:.75; }
+  #jg-career-game .jg-office-name { display:block; font-size:16px; line-height:1.3; font-weight:850; color:#f5faff; padding-left:9px; margin-bottom:10px; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; }
+  #jg-career-game .jg-office-row { display:flex; justify-content:space-between; align-items:center; gap:5px; }
+  #jg-career-game .jg-office-role { color:#8fa5b4; font-size:11px; font-weight:650; }
+  #jg-career-game .jg-office-tag { border:1px solid #3b5263; border-radius:5px; color:#a5b9c8; background:#24374a; font-size:10px; font-weight:750; padding:4px 6px; line-height:1; white-space:nowrap; }
+  #jg-career-game .jg-office.jg-open { border-color:#60dfbd; background:linear-gradient(145deg,#18443f,#183044 75%); box-shadow:0 0 0 1px #6be0bb33,0 0 23px #39d5ae35,0 6px 20px #0009; animation:jg-office-glow 2.2s ease-in-out infinite; }
+  #jg-career-game .jg-office.jg-open:hover { box-shadow:0 0 0 2px #80ffcc77,0 0 33px #43f2c771; }
+  #jg-career-game .jg-office.jg-open .jg-office-role { color:#aaf9dd; }
+  #jg-career-game .jg-office.jg-open .jg-office-tag { color:#04392d; background:#75efc5; border-color:#75efc5; }
+  #jg-career-game .jg-office.jg-employed { border-color:#6d8fc8; }
+  #jg-career-game .jg-office.jg-employed::after { content:"ВАША РАБОТА"; position:absolute; right:8px; top:-10px; border-radius:5px; background:#4b8ec9; color:#fff; font-weight:800; font-size:9px; letter-spacing:.35px; padding:3px 6px; box-shadow:0 2px 9px #0007; }
+  #jg-career-game .jg-person { position:absolute; z-index:5; width:44px; height:52px; transform:translate(-50%,-50%); display:flex; flex-direction:column; align-items:center; justify-content:center; pointer-events:none; filter:drop-shadow(0 5px 4px #0008); }
+  #jg-career-game .jg-person-icon { width:36px; height:36px; border-radius:50%; background:#6befc6; border:3px solid #ebfff4; box-shadow:0 0 0 4px #5eefd12e,0 0 20px #73ffe6a8; color:#053c38; display:grid; place-items:center; font-size:20px; font-weight:900; }
+  #jg-career-game .jg-person-name { color:#fff; font-weight:900; font-size:10px; letter-spacing:.6px; text-shadow:0 1px 4px #000,0 1px 5px #000; background:#075344; border-radius:5px; padding:1px 6px; margin-top:1px; }
+  #jg-career-game .jg-person-rival { width:34px; height:43px; z-index:4; }
+  #jg-career-game .jg-person-rival .jg-person-icon { width:27px; height:27px; font-size:10px; border:2px solid #e4e7ff; background:#e6a4a0; color:#472627; box-shadow:0 0 0 3px #ef979022; }
+  #jg-career-game .jg-person-rival .jg-person-name { font-size:9px; padding:0 5px; background:#7e474b; }
+  #jg-career-game .jg-map-pause { z-index:12; position:absolute; inset:0; display:flex; align-items:center; justify-content:center; gap:13px; background:#06101bc4; color:#e8f6fd; font-weight:900; letter-spacing:3px; font-size:29px; }
+  #jg-career-game .jg-map-pause span { color:#76f9cb; font-size:39px; }
+  #jg-career-game .jg-map-caption { display:flex; flex-wrap:wrap; gap:8px 20px; padding:11px 13px; border-top:1px solid #274056; color:#a6b9c6; font-size:11px; align-items:center; }
+  #jg-career-game .jg-map-caption span { white-space:nowrap; }
+  #jg-career-game .jg-map-caption i { display:inline-block; width:10px; height:10px; margin-right:5px; vertical-align:-1px; border-radius:50%; }
+  #jg-career-game .jg-legend-pulse { background:#65f1bf; box-shadow:0 0 8px #60ffcb; }
+  #jg-career-game .jg-legend-you { background:#e8fff3; border:3px solid #60e8b8; }
+  #jg-career-game .jg-legend-rival { background:#eda09a; border:2px solid #f3d3d1; }
+  #jg-career-game .jg-scroll-tip { color:#7395a4; }
+  #jg-career-game .jg-sidebar { display:flex; flex-direction:column; gap:12px; min-width:0; }
+  #jg-career-game .jg-side-card { background:linear-gradient(145deg,#15293a,#111e2c); border:1px solid #2d4556; border-radius:12px; padding:14px; }
+  #jg-career-game .jg-side-title { display:flex; gap:7px; align-items:center; justify-content:space-between; color:#b6c8d6; font-weight:850; letter-spacing:1.05px; font-size:10px; margin-bottom:12px; }
+  #jg-career-game .jg-badge { padding:4px 7px; font-size:9px; font-weight:850; letter-spacing:.5px; border-radius:5px; white-space:nowrap; }
+  #jg-career-game .jg-badge-muted { background:#2a384b; color:#b1c1cf; }
+  #jg-career-game .jg-badge-active { background:#164b3d; color:#82ffca; }
+  #jg-career-game .jg-job-info { color:#c0d3e0; min-height:60px; font-size:12px; line-height:1.55; }
+  #jg-career-game .jg-job-name { font-weight:850; color:#fff; font-size:16px; margin-bottom:5px; }
+  #jg-career-game .jg-job-small { color:#a4b9c9; font-size:11px; }
+  #jg-career-game .jg-job-small strong { color:#7df9cc; font-size:12px; }
+  #jg-career-game .jg-job-progress { height:7px; border-radius:10px; background:#283b4c; overflow:hidden; margin:11px 0 7px; }
+  #jg-career-game .jg-job-progress>div { height:100%; width:0%; background:linear-gradient(90deg,#6ae8c3,#facb78,#fa8181); transition:width .3s; }
+  #jg-career-game .jg-job-hint { font-size:11px; color:#91a8ba; }
+  #jg-career-game .jg-job-hint.jg-job-urgent { color:#ffbd93; font-weight:750; }
+  #jg-career-game .jg-offer-count { color:#061a20; background:#78efc7; border-radius:6px; padding:2px 8px; font-size:11px; line-height:1.4; }
+  #jg-career-game .jg-offer-list { display:flex; flex-direction:column; gap:7px; max-height:250px; min-height:88px; overflow-y:auto; scrollbar-width:thin; scrollbar-color:#36556d #112334; }
+  #jg-career-game .jg-offer { display:flex; align-items:center; justify-content:space-between; gap:6px; padding:10px; border:1px solid #36564f; background:#13332f9c; border-radius:9px; }
+  #jg-career-game .jg-offer-meta { min-width:0; }
+  #jg-career-game .jg-offer-name { font-size:12px; color:#e5f8f0; font-weight:800; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; }
+  #jg-career-game .jg-offer-salary { color:#9bdabf; font-size:11px; font-weight:600; }
+  #jg-career-game .jg-offer button { color:#062d26; border:0; background:#78edc5; border-radius:6px; padding:6px 9px; flex:none; font-size:11px; font-weight:850; }
+  #jg-career-game .jg-offer button:hover { background:#b5ffe6; }
+  #jg-career-game .jg-offer button.jg-offer-target { background:#f7c879; color:#392d13; }
+  #jg-career-game .jg-offer-empty { color:#819caa; font-size:12px; padding:15px 5px; }
+  #jg-career-game .jg-feed { display:flex; flex-direction:column; gap:10px; max-height:191px; min-height:80px; overflow-y:auto; scrollbar-width:thin; }
+  #jg-career-game .jg-event { display:flex; align-items:flex-start; gap:9px; border-bottom:1px solid #273a4b; padding-bottom:9px; }
+  #jg-career-game .jg-event:last-child { border:0; padding-bottom:0; }
+  #jg-career-game .jg-event-dot { width:6px; height:6px; flex:none; border-radius:50%; background:#79c5f8; margin-top:6px; }
+  #jg-career-game .jg-event-dot.good { background:#74f3c5; }
+  #jg-career-game .jg-event-dot.bad { background:#f79c9c; }
+  #jg-career-game .jg-event-text { color:#a9bfcd; font-size:11px; line-height:1.4; }
+  #jg-career-game .jg-event-text strong { color:#e0ecf4; }
+  #jg-career-game .jg-footer { display:flex; justify-content:space-between; gap:12px; margin-top:16px; color:#6f8a9c; font-size:10px; }
+  #jg-career-game .jg-overlay { position:fixed; z-index:2147483000; inset:0; display:flex; justify-content:center; align-items:center; padding:22px; background:#06111be9; backdrop-filter:blur(5px); }
+  #jg-career-game .jg-dialog { width:100%; max-width:560px; max-height:min(90vh,840px); overflow-y:auto; color:#e4f1f8; border:1px solid #3c5a69; background:radial-gradient(ellipse at 95% 0%,#20433f 0%,transparent 42%),linear-gradient(145deg,#152c3d,#0f1e2e); box-shadow:0 26px 90px #000b; border-radius:19px; padding:30px; }
+  #jg-career-game .jg-dialog-kicker { font-size:11px; font-weight:850; letter-spacing:1.7px; color:#78f3cc; margin-bottom:9px; }
+  #jg-career-game .jg-dialog h3 { color:#f6fcff; font-size:clamp(23px,3.3vw,34px); font-weight:900; letter-spacing:-.8px; line-height:1.2; margin:0 0 14px; }
+  #jg-career-game .jg-dialog h3 em { color:#76f3c8; font-style:normal; }
+  #jg-career-game .jg-dialog p { margin:0 0 14px; color:#bbceda; line-height:1.65; font-size:14px; }
+  #jg-career-game .jg-dialog .jg-dialog-alert { border-left:3px solid #ffa3a3; background:#542e375a; color:#ffcccc; padding:11px 12px; border-radius:0 8px 8px 0; margin:15px 0; font-size:13px; }
+  #jg-career-game .jg-dialog .jg-dialog-info { border-left:3px solid #75f0c6; background:#244e4555; color:#c9f4e3; padding:11px 12px; border-radius:0 8px 8px 0; margin:15px 0; font-size:13px; }
+  #jg-career-game .jg-dialog-actions { display:flex; flex-wrap:wrap; gap:10px; margin-top:22px; }
+  #jg-career-game .jg-dialog-actions .jg-btn { min-height:44px; }
+  #jg-career-game .jg-rules { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:21px 0; }
+  #jg-career-game .jg-rule { border:1px solid #355161; background:#112a37; border-radius:9px; padding:12px; }
+  #jg-career-game .jg-rule b { display:block; color:#e4f8f6; margin-bottom:4px; font-size:13px; }
+  #jg-career-game .jg-rule span { color:#9eb8c9; font-size:12px; }
+  #jg-career-game .jg-interview-meta { display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-bottom:12px; }
+  #jg-career-game .jg-interview-meta span { border:1px solid #3a5d6d; padding:5px 9px; border-radius:6px; color:#b8d4e0; background:#193343; font-size:11px; font-weight:750; }
+  #jg-career-game .jg-question { font-size:18px !important; color:#f1f9ff !important; font-weight:750; line-height:1.45 !important; }
+  #jg-career-game .jg-answers { display:grid; gap:9px; margin-top:18px; }
+  #jg-career-game .jg-answer { display:flex; align-items:flex-start; gap:11px; padding:12px 13px; color:#d7e9f4; background:#183044; border:1px solid #3a5569; border-radius:10px; line-height:1.4; text-align:left; font-size:13px; transition:background .14s,border-color .14s; }
+  #jg-career-game .jg-answer:hover { border-color:#6bdcc5; background:#244a53; }
+  #jg-career-game .jg-answer kbd { display:grid; place-items:center; color:#a6eada; border:1px solid #45776d; background:#22524b; border-radius:6px; font-weight:800; width:23px; height:23px; font-size:11px; flex:none; }
+  #jg-career-game .jg-timer-track { width:100%; height:7px; border-radius:20px; background:#294255; margin-top:20px; overflow:hidden; }
+  #jg-career-game .jg-timer-fill { height:100%; width:100%; background:linear-gradient(90deg,#ffc981,#70edca); transform-origin:left; }
+  #jg-career-game .jg-timer-text { color:#a0b5bf; margin-top:7px; font-size:11px; text-align:right; }
+  #jg-career-game .jg-startup-textarea { display:block; width:100%; min-height:100px; border-radius:10px; border:1px solid #476473; background:#0d2030; color:#f2fdff; padding:13px; resize:vertical; font-size:14px; }
+  #jg-career-game .jg-input-error { color:#ff9d9d; font-size:12px; min-height:17px; margin:7px 0 0; }
+  #jg-career-game .jg-dialog a.jg-btn { text-decoration:none; }
+  #jg-career-game .jg-toast { z-index:30; position:absolute; bottom:20px; left:50%; transform:translate(-50%,14px); max-width:min(90%,520px); width:max-content; border:1px solid #4e7e77; background:#123e3b; border-radius:10px; padding:11px 15px; color:#dbfff3; font-size:12px; font-weight:750; text-align:center; box-shadow:0 9px 25px #0008; opacity:0; pointer-events:none; transition:transform .2s,opacity .2s; }
+  #jg-career-game .jg-toast.show { opacity:1; transform:translate(-50%,0); }
+  @keyframes jg-blink { 50% { opacity:.43; box-shadow:0 0 0 7px #65f6c308; } }
+  @keyframes jg-office-glow { 50% { box-shadow:0 0 0 1px #6be0bb77,0 0 37px #39d5ae66,0 6px 20px #0009; } }
+  @media (max-width:1180px) {
+    #jg-career-game .jg-layout { grid-template-columns:1fr; }
+    #jg-career-game .jg-sidebar { display:grid; grid-template-columns:1fr 1fr; align-items:start; }
+    #jg-career-game .jg-events-card { grid-column:1 / -1; }
+    #jg-career-game .jg-feed { max-height:120px; }
+  }
+  @media (max-width:710px) {
+    #jg-career-game { border-radius:11px; }
+    #jg-career-game .jg-shell { padding:12px; }
+    #jg-career-game .jg-header { flex-direction:column; gap:13px; }
+    #jg-career-game .jg-header-actions { width:100%; }
+    #jg-career-game .jg-header-actions .jg-btn { flex:1; }
+    #jg-career-game .jg-kicker { font-size:9px; letter-spacing:1.1px; }
+    #jg-career-game .jg-heading p { font-size:12px; }
+    #jg-career-game .jg-stats { grid-template-columns:1fr 1fr; gap:7px; }
+    #jg-career-game .jg-stat { padding:11px; }
+    #jg-career-game .jg-stat-number { font-size:20px; }
+    #jg-career-game .jg-stat-title { font-size:9px; letter-spacing:.5px; }
+    #jg-career-game .jg-layout { gap:9px; }
+    #jg-career-game .jg-toolbar-muted { display:none; }
+    #jg-career-game .jg-section-toolbar { padding:10px; }
+    #jg-career-game .jg-section-toolbar strong { font-size:10px; }
+    #jg-career-game .jg-month-clock { gap:5px; }
+    #jg-career-game .jg-month-clock span { font-size:10px; }
+    #jg-career-game .jg-sidebar { display:flex; }
+    #jg-career-game .jg-side-card { width:100%; }
+    #jg-career-game .jg-offer-list { max-height:210px; }
+    #jg-career-game .jg-dialog { padding:21px; }
+    #jg-career-game .jg-rules { grid-template-columns:1fr; gap:7px; }
+    #jg-career-game .jg-rule { padding:9px 12px; }
+    #jg-career-game .jg-footer { flex-direction:column; }
+    #jg-career-game .jg-toast { bottom:10px; }
+  }
+  @media (prefers-reduced-motion:reduce) {
+    #jg-career-game .jg-office.jg-open, #jg-career-game .jg-live-dot { animation:none; }
+    #jg-career-game .jg-btn, #jg-career-game .jg-office { transition:none; }
+  }
+
+  #jg-career-game .jg-move-controls {display:flex;align-items:center;gap:18px;background:#102436;border-top:1px solid #294254;padding:9px 14px;}
+  #jg-career-game .jg-move-dpad {display:flex;flex-direction:column;align-items:center;gap:3px;flex-shrink:0;}
+  #jg-career-game .jg-move-dpad>div {display:flex;gap:3px;}
+  #jg-career-game .jg-move-dpad button {width:37px;height:32px;border:1px solid #446b70;background:#20404a;color:#c4f9e7;border-radius:6px;font-size:19px;font-weight:800;touch-action:none;user-select:none;}
+  #jg-career-game .jg-move-dpad button:hover, #jg-career-game .jg-move-dpad button.jg-pressed {background:#59cdaa;color:#06352f;}
+  #jg-career-game .jg-move-controls p {font-size:11px;color:#9fb6c3;line-height:1.5;margin:0;}
+  #jg-career-game .jg-move-controls p b {color:#d1e5ee;}
+  #jg-career-game .jg-move-help {display:flex;flex-direction:column;align-items:flex-start;gap:7px;min-width:0;}
+  #jg-career-game .jg-move-help .jg-btn {padding:6px 10px;font-size:11px;white-space:normal;text-align:left;}
+  #jg-career-game .jg-difficulty-grid {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:17px 0 12px;}
+  #jg-career-game .jg-difficulty {display:flex;flex-direction:column;align-items:flex-start;text-align:left;gap:6px;padding:14px 12px;min-height:112px;border-radius:11px;border:1px solid #476174;color:#d5e6ef;background:#132e40;transition:background .15s,border .15s,box-shadow .15s;white-space:normal;}
+  #jg-career-game .jg-difficulty:hover {border-color:#79b8ab;background:#234753;}
+  #jg-career-game .jg-difficulty-selected {border-color:#66efc2 !important;background:#1e5048 !important;box-shadow:inset 0 0 0 1px #6eefc655,0 0 15px #43e5ba22;}
+  #jg-career-game .jg-difficulty b {font-size:15px;color:#eafff5;}
+  #jg-career-game .jg-difficulty span {font-size:12px;font-weight:750;color:#89f0c8;}
+  #jg-career-game .jg-difficulty small {font-size:10px;color:#b5c9d2;}
+  #jg-career-game .jg-start-budget {font-size:12px !important;color:#c6ddda !important;margin-bottom:9px !important;}
+  #jg-career-game .jg-code {background:#071624;border:1px solid #405d68;border-radius:10px;color:#bcefdc;padding:15px;overflow-x:auto;white-space:pre;font-family:ui-monospace,SFMono-Regular,Consolas,Menlo,monospace;font-size:12px;line-height:1.65;tab-size:2;margin:12px 0 15px;}
+  #jg-career-game .jg-review-wrong, #jg-career-game .jg-review-correct {border-radius:10px;padding:13px 14px;margin:10px 0;font-size:13px;}
+  #jg-career-game .jg-review-wrong {background:#46252d66;border:1px solid #a25c65;color:#ffd6d6;}
+  #jg-career-game .jg-review-correct {background:#12443888;border:1px solid #4cd5aa;color:#d6ffec;}
+  #jg-career-game .jg-review-wrong b, #jg-career-game .jg-review-correct b {display:block;font-size:12px;letter-spacing:.3px;margin-bottom:4px;}
+  #jg-career-game .jg-review-wrong div, #jg-career-game .jg-review-correct div {line-height:1.5;}
+  @media (max-width:710px) {
+    #jg-career-game .jg-move-controls {gap:12px;padding:9px;}
+    #jg-career-game .jg-move-controls p {font-size:10px;}
+    #jg-career-game .jg-move-dpad button {height:36px;width:38px;}
+    #jg-career-game .jg-difficulty-grid {grid-template-columns:1fr;gap:6px;}
+    #jg-career-game .jg-difficulty {min-height:0;padding:11px 13px;gap:3px;}
+    #jg-career-game .jg-code {font-size:11px;}
+  }

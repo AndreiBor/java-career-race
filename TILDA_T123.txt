@@ -1,0 +1,10 @@
+<!-- Tilda T123: замените YOUR_GITHUB_USERNAME на GitHub-логин, если репозиторий называется java-career-race -->
+<div style="width:100%;max-width:1400px;margin:0 auto">
+  <iframe
+    title="JAVA CAREER RACE — игра для Java-разработчиков"
+    src="https://YOUR_GITHUB_USERNAME.github.io/java-career-race/"
+    loading="lazy"
+    style="display:block;width:100%;height:980px;border:0;background:#071724;border-radius:14px"
+    allowfullscreen
+  ></iframe>
+</div>
