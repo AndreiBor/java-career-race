@@ -6,9 +6,9 @@
   const $ = id => root.querySelector('#' + id);
   const W = 1120, H = 620, MONTH_SECONDS = 5;
   const DIFFICULTIES = {
-    easy:   {label:'Легко', goal:1000000,   cost:100000, start:300000},
-    normal: {label:'Нормально', goal:5000000, cost:250000, start:750000},
-    hard:   {label:'Трудно', goal:100000000, cost:500000, start:1500000}
+    easy:   {label:'Легко', goal:1000000,   cost:100000, start:200000},
+    normal: {label:'Нормально', goal:5000000, cost:250000, start:500000},
+    hard:   {label:'Трудно', goal:100000000, cost:500000, start:1000000}
   };
   const fmt = n => Math.round(n).toLocaleString('ru-RU') + ' ₽';
   const clamp = (v,low,high) => Math.max(low,Math.min(high,v));
@@ -178,6 +178,15 @@ let quizBank920 = [];
   const playerNode=$('jg-player'), routeLine=$('jg-route-line');
   const mapWindow=$('jg-map-window'),mapWorld=$('jg-map-world'),mapSizer=$('jg-map-sizer');
   const rivalsLayer=$('jg-rivals');
+
+  function scooterMarkup(label){
+    return `<div class="jg-person-icon"><span class="jg-scooter"><span class="jg-rider-body"></span><span class="jg-handle"></span><span class="jg-deck"></span><span class="jg-wheel jg-wheel-left"></span><span class="jg-wheel jg-wheel-right"></span><span class="jg-trail"></span></span></div><div class="jg-person-name">${safe(label)}</div>`;
+  }
+  function setPersonMotion(node, dx, moving){
+    if(!node)return;
+    node.classList.toggle('jg-moving', !!moving);
+    node.style.setProperty('--jg-dir', dx < -0.01 ? '-1' : '1');
+  }
 
   function currentSetting(){return DIFFICULTIES[difficulty];}
   function currentCost(){return currentSetting().cost;}
@@ -364,18 +373,21 @@ let quizBank920 = [];
     }else if(pointTarget){
       if(moveToward(player,pointTarget.x,pointTarget.y,dt,player.speed))pointTarget=null;
     }
+    const deltaX=player.x-beforeX, deltaY=player.y-beforeY;
+    const didMove=Math.hypot(deltaX,deltaY)>.01;
+    setPersonMotion(playerNode, deltaX, didMove);
     playerNode.style.left=player.x+'px';playerNode.style.top=player.y+'px';
-    const didMove=Math.hypot(player.x-beforeX,player.y-beforeY)>.01;
     if(didMove && simSeconds-followTime>.10){followPlayer();followTime=simSeconds;}
     updateNearby();
   }
   function initializeRivals(){
-    rivals=initialRivals.map((r,i)=>({...r,origX:r.x,origY:r.y,targetId:null,reactAt:rand(1.5,4)+i*.2,freeAt:0,node:null}));
+    rivals=initialRivals.map((r,i)=>({...r,origX:r.x,origY:r.y,targetId:null,reactAt:rand(1.5,4)+i*.2,freeAt:0,node:null,lastX:r.x,lastY:r.y}));
     rivalsLayer.innerHTML='';
     for(const r of rivals){
       const n=document.createElement('div');n.className='jg-person jg-person-rival';
-      n.title='Соискатель';n.innerHTML=`<div class="jg-person-icon">${safe(r.name)}</div><div class="jg-person-name">КАНДИДАТ</div>`;
+      n.title='Соискатель на самокате';n.innerHTML=scooterMarkup('КАНДИДАТ');
       n.style.left=r.x+'px';n.style.top=r.y+'px';rivalsLayer.appendChild(n);r.node=n;
+      setPersonMotion(n,1,true);
     }
   }
   function updateRivals(dt){
@@ -398,7 +410,11 @@ let quizBank920 = [];
       }else if(simSeconds>r.freeAt){
         moveToward(r,r.origX+Math.sin(simSeconds*.26+r.origX)*18,r.origY+Math.cos(simSeconds*.2+r.origY)*14,dt,r.speed*.25);
       }
+      const dx=r.x-r.lastX, dy=r.y-r.lastY;
+      const moving=Math.hypot(dx,dy)>.01;
+      setPersonMotion(r.node,dx,moving);
       r.node.style.left=r.x+'px';r.node.style.top=r.y+'px';
+      r.lastX=r.x; r.lastY=r.y;
     }
   }
   function showDialog(html,kind){
@@ -467,7 +483,7 @@ let quizBank920 = [];
     if(level==='senior')return [drawQuestion(null,null,['senior','middleplus']),drawQuestion(null,'code',['senior','middleplus']),drawQuestion(null,Math.random()<.5?'design':'incident',['senior','middleplus'])];
     return [drawQuestion(null,null,['lead','senior']),drawQuestion(null,'code',['senior','middleplus']),drawQuestion(null,'incident',['lead','senior']),drawQuestion(null,'design',['lead','senior','middleplus'])];
   }
-  function questionSeconds(q){const basic=q.kind==='code'?120:q.kind==='incident'?100:q.kind==='design'?100:60;return basic+(q.q.length>115?12:0)+(Math.max(...q.a.map(x=>x.length))>150?12:0);}
+  function questionSeconds(q){const basic=q.kind==='code'?54:q.kind==='incident'?58:q.kind==='design'?64:45;return basic+(q.q.length>115?12:0)+(Math.max(...q.a.map(x=>x.length))>150?12:0);}
   function startInterview(id){
     if(mode!=='running')return;
     const v=jobById(id);
@@ -531,7 +547,7 @@ let quizBank920 = [];
   function newMonth(){
     month++;
     let fired=null;
-    if(job && month-hiredAtMonth>=4){fired=job;job=null;hiredAtMonth=0;}
+    if(job && month-hiredAtMonth>=6){fired=job;job=null;hiredAtMonth=0;}
     const earned=job?job.paidSalary:0;
     const delta=earned-currentCost();cash+=delta;
     addLog((earned?`Зарплата ${fmt(earned)}, `:'Без зарплаты, ')+`расходы ${fmt(currentCost())}. Итого ${delta>=0?'+':''}${fmt(delta)}.`,delta>=0?'good':'bad');
@@ -601,6 +617,8 @@ let quizBank920 = [];
     keys.clear();touchKeys.clear();
     companies.forEach(c=>{c.jobs=[];});
     player.x=560;player.y=577;
+    playerNode.innerHTML=scooterMarkup('ВЫ');
+    setPersonMotion(playerNode,1,true);
     playerNode.style.left=player.x+'px';playerNode.style.top=player.y+'px';
     initializeRivals();
     // Стартовые вакансии разных грейдов и компаний.

@@ -52,6 +52,12 @@
         <div id="jg-map-window" class="jg-map-window" tabindex="0" aria-label="Игровая карта, на телефоне прокручивается горизонтально">
           <div id="jg-map-sizer" class="jg-map-sizer">
             <div id="jg-map-world" class="jg-map-world">
+              <div class="jg-city-sky" aria-hidden="true"></div>
+              <div class="jg-city-skyline jg-city-skyline-back" aria-hidden="true"></div>
+              <div class="jg-city-traffic jg-city-traffic-1" aria-hidden="true"></div>
+              <div class="jg-city-traffic jg-city-traffic-2" aria-hidden="true"></div>
+              <div class="jg-city-traffic jg-city-traffic-3" aria-hidden="true"></div>
+              <div class="jg-city-skyline jg-city-skyline-front" aria-hidden="true"></div>
               <svg class="jg-map-svg" width="1120" height="620" viewBox="0 0 1120 620" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
                 <defs>
                   <linearGradient id="jg-map-back" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0d2030"/><stop offset="1" stop-color="#0b1624"/></linearGradient>
@@ -88,7 +94,7 @@
               <div id="jg-offices" class="jg-offices"></div>
               <svg id="jg-route" class="jg-route" width="1120" height="620" viewBox="0 0 1120 620" aria-hidden="true"><line id="jg-route-line" x1="0" y1="0" x2="0" y2="0"/></svg>
               <div id="jg-rivals" class="jg-rivals"></div>
-              <div id="jg-player" class="jg-person jg-person-you" title="Вы — Java-разработчик"><div class="jg-person-icon">⌘</div><div class="jg-person-name">ВЫ</div></div>
+              <div id="jg-player" class="jg-person jg-person-you jg-moving" title="Вы — Java-разработчик"><div class="jg-person-icon"><span class="jg-scooter"><span class="jg-rider-body"></span><span class="jg-handle"></span><span class="jg-deck"></span><span class="jg-wheel jg-wheel-left"></span><span class="jg-wheel jg-wheel-right"></span><span class="jg-trail"></span></span></div><div class="jg-person-name">ВЫ</div></div>
               <div id="jg-map-pause" class="jg-map-pause jg-hidden"><span>Ⅱ</span> ПАУЗА</div>
             </div>
           </div>

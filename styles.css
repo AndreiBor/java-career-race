@@ -44,9 +44,22 @@
   #jg-career-game .jg-month-clock b { color:#f2d49a; font-size:14px; font-variant-numeric:tabular-nums; }
   #jg-career-game .jg-map-window { width:100%; overflow-x:auto; overflow-y:hidden; scrollbar-color:#385c6a #122437; scrollbar-width:thin; overscroll-behavior-x:contain; }
   #jg-career-game .jg-map-sizer { position:relative; width:1120px; height:620px; }
-  #jg-career-game .jg-map-world { position:absolute; top:0; left:0; width:1120px; height:620px; transform-origin:0 0; overflow:hidden; background:#0c1b2a; }
-  #jg-career-game .jg-map-svg, #jg-career-game .jg-route, #jg-career-game .jg-offices, #jg-career-game .jg-rivals { position:absolute; inset:0; }
-  #jg-career-game .jg-map-svg, #jg-career-game .jg-route { pointer-events:none; }
+  #jg-career-game .jg-map-world { position:absolute; top:0; left:0; width:1120px; height:620px; transform-origin:0 0; overflow:hidden; isolation:isolate; background:linear-gradient(180deg,#0d2233 0%,#0c1a2a 45%,#091420 100%); }
+  #jg-career-game .jg-map-svg, #jg-career-game .jg-route, #jg-career-game .jg-offices, #jg-career-game .jg-rivals, #jg-career-game .jg-city-sky, #jg-career-game .jg-city-skyline, #jg-career-game .jg-city-traffic { position:absolute; inset:0; }
+  #jg-career-game .jg-map-svg, #jg-career-game .jg-route, #jg-career-game .jg-city-sky, #jg-career-game .jg-city-skyline, #jg-career-game .jg-city-traffic { pointer-events:none; }
+  #jg-career-game .jg-city-sky { z-index:0; background:radial-gradient(circle at 82% 16%,rgba(255,214,142,.20) 0 34px,rgba(255,214,142,.05) 35px 96px,transparent 97px),radial-gradient(circle at 14% 13%,rgba(108,244,209,.15) 0 2px,transparent 3px),radial-gradient(circle at 22% 21%,rgba(108,244,209,.12) 0 1.5px,transparent 2.5px),radial-gradient(circle at 30% 8%,rgba(255,244,216,.16) 0 1.7px,transparent 2.7px),radial-gradient(circle at 46% 18%,rgba(255,244,216,.15) 0 1.5px,transparent 2.5px),radial-gradient(circle at 71% 9%,rgba(108,244,209,.18) 0 1.6px,transparent 2.6px),linear-gradient(180deg,#10263b 0%,#0c1b2b 48%,#091521 100%); animation:jg-sky-shift 18s ease-in-out infinite; }
+  #jg-career-game .jg-city-sky::before { content:""; position:absolute; inset:auto -10% 470px; height:26px; background:linear-gradient(90deg,transparent,rgba(102,255,214,.16),transparent); filter:blur(9px); animation:jg-airlane 14s linear infinite; }
+  #jg-career-game .jg-city-skyline { z-index:0; left:0; right:0; }
+  #jg-career-game .jg-city-skyline::before, #jg-career-game .jg-city-skyline::after { content:""; position:absolute; inset:0; clip-path:inherit; }
+  #jg-career-game .jg-city-skyline-back { top:32px; height:122px; opacity:.68; background:linear-gradient(180deg,rgba(31,56,79,.94),rgba(14,28,42,.94)); clip-path:polygon(0 100%,0 52%,4% 52%,4% 27%,9% 27%,9% 61%,13% 61%,13% 19%,17% 19%,17% 46%,22% 46%,22% 34%,27% 34%,27% 58%,31% 58%,31% 24%,35% 24%,35% 68%,40% 68%,40% 32%,44% 32%,44% 16%,48% 16%,48% 58%,53% 58%,53% 37%,57% 37%,57% 22%,61% 22%,61% 49%,66% 49%,66% 29%,72% 29%,72% 63%,76% 63%,76% 25%,81% 25%,81% 44%,85% 44%,85% 18%,90% 18%,90% 54%,94% 54%,94% 34%,100% 34%,100% 100%); box-shadow:0 10px 24px rgba(0,0,0,.28); }
+  #jg-career-game .jg-city-skyline-front { bottom:13px; height:84px; opacity:.26; background:linear-gradient(180deg,rgba(31,59,77,.94),rgba(13,22,33,.98)); clip-path:polygon(0 100%,0 46%,6% 46%,6% 19%,12% 19%,12% 62%,17% 62%,17% 30%,23% 30%,23% 71%,28% 71%,28% 39%,34% 39%,34% 55%,40% 55%,40% 21%,46% 21%,46% 69%,52% 69%,52% 27%,57% 27%,57% 61%,62% 61%,62% 36%,68% 36%,68% 52%,73% 52%,73% 16%,79% 16%,79% 60%,84% 60%,84% 31%,89% 31%,89% 44%,94% 44%,94% 24%,100% 24%,100% 100%); }
+  #jg-career-game .jg-city-skyline::before { background:repeating-linear-gradient(90deg,transparent 0 18px,rgba(122,248,206,.14) 18px 21px,transparent 21px 31px),repeating-linear-gradient(180deg,transparent 0 10px,rgba(255,205,123,.12) 10px 13px,transparent 13px 18px); opacity:.42; animation:jg-window-blink 5.5s steps(2) infinite; }
+  #jg-career-game .jg-city-skyline::after { background:linear-gradient(180deg,transparent 0%,rgba(95,215,255,.18) 100%); opacity:.30; }
+  #jg-career-game .jg-city-traffic { z-index:1; left:-8%; width:116%; height:12px; background:repeating-linear-gradient(90deg,transparent 0 55px,rgba(103,246,199,.55) 55px 93px,transparent 93px 125px,rgba(255,159,140,.52) 125px 164px,transparent 164px 215px); opacity:.28; filter:blur(1px); }
+  #jg-career-game .jg-city-traffic-1 { top:179px; animation:jg-traffic 10s linear infinite; }
+  #jg-career-game .jg-city-traffic-2 { top:326px; animation:jg-traffic 8.5s linear infinite reverse; opacity:.24; }
+  #jg-career-game .jg-city-traffic-3 { top:466px; animation:jg-traffic 7.6s linear infinite; opacity:.20; }
+  #jg-career-game .jg-map-svg { z-index:0; opacity:.96; }
   #jg-career-game .jg-route { z-index:2; }
   #jg-career-game .jg-route line { stroke:#8afbd8; stroke-width:3; stroke-dasharray:7 10; stroke-linecap:round; opacity:.73; filter:drop-shadow(0 0 6px #4ce9bc); display:none; }
   #jg-career-game .jg-offices { z-index:3; pointer-events:none; }
@@ -64,11 +77,33 @@
   #jg-career-game .jg-office.jg-open .jg-office-tag { color:#04392d; background:#75efc5; border-color:#75efc5; }
   #jg-career-game .jg-office.jg-employed { border-color:#6d8fc8; }
   #jg-career-game .jg-office.jg-employed::after { content:"ВАША РАБОТА"; position:absolute; right:8px; top:-10px; border-radius:5px; background:#4b8ec9; color:#fff; font-weight:800; font-size:9px; letter-spacing:.35px; padding:3px 6px; box-shadow:0 2px 9px #0007; }
-  #jg-career-game .jg-person { position:absolute; z-index:5; width:44px; height:52px; transform:translate(-50%,-50%); display:flex; flex-direction:column; align-items:center; justify-content:center; pointer-events:none; filter:drop-shadow(0 5px 4px #0008); }
-  #jg-career-game .jg-person-icon { width:36px; height:36px; border-radius:50%; background:#6befc6; border:3px solid #ebfff4; box-shadow:0 0 0 4px #5eefd12e,0 0 20px #73ffe6a8; color:#053c38; display:grid; place-items:center; font-size:20px; font-weight:900; }
-  #jg-career-game .jg-person-name { color:#fff; font-weight:900; font-size:10px; letter-spacing:.6px; text-shadow:0 1px 4px #000,0 1px 5px #000; background:#075344; border-radius:5px; padding:1px 6px; margin-top:1px; }
-  #jg-career-game .jg-person-rival { width:34px; height:43px; z-index:4; }
-  #jg-career-game .jg-person-rival .jg-person-icon { width:27px; height:27px; font-size:10px; border:2px solid #e4e7ff; background:#e6a4a0; color:#472627; box-shadow:0 0 0 3px #ef979022; }
+  #jg-career-game .jg-person { --jg-dir:1; position:absolute; z-index:5; width:58px; height:50px; transform:translate(-50%,-50%); display:flex; flex-direction:column; align-items:center; justify-content:center; pointer-events:none; filter:drop-shadow(0 6px 6px #0008); }
+  #jg-career-game .jg-person-icon { width:44px; height:30px; position:relative; display:block; transform:scaleX(var(--jg-dir)); transform-origin:center; transition:transform .12s linear; }
+  #jg-career-game .jg-person-name { color:#fff; font-weight:900; font-size:10px; letter-spacing:.6px; text-shadow:0 1px 4px #000,0 1px 5px #000; background:#075344; border-radius:5px; padding:1px 6px; margin-top:2px; }
+  #jg-career-game .jg-scooter { position:absolute; inset:0; display:block; }
+  #jg-career-game .jg-scooter::before { content:""; position:absolute; left:6px; right:4px; bottom:2px; height:5px; border-radius:10px; background:radial-gradient(ellipse at center,rgba(99,239,202,.25),rgba(99,239,202,0) 72%); }
+  #jg-career-game .jg-rider-body { position:absolute; left:14px; top:4px; width:12px; height:14px; border-radius:8px 8px 7px 7px; background:linear-gradient(180deg,#83ffe3,#2bbfa4); box-shadow:0 0 0 1px rgba(255,255,255,.08) inset; }
+  #jg-career-game .jg-rider-body::before { content:""; position:absolute; left:1px; top:-7px; width:10px; height:10px; border-radius:50%; background:#f5fcff; border:2px solid #73ffe0; box-shadow:0 0 12px rgba(115,255,224,.28); }
+  #jg-career-game .jg-rider-body::after { content:""; position:absolute; left:8px; top:7px; width:12px; height:3px; border-radius:3px; background:#9df7eb; transform:rotate(17deg); transform-origin:left center; }
+  #jg-career-game .jg-handle { position:absolute; left:29px; top:7px; width:3px; height:13px; border-radius:3px; background:#92eeff; transform:skew(-10deg); box-shadow:3px -1px 0 0 #92eeff; }
+  #jg-career-game .jg-deck { position:absolute; left:13px; top:19px; width:21px; height:4px; border-radius:4px; background:linear-gradient(90deg,#79f4ca,#d6ffef); box-shadow:0 1px 0 rgba(255,255,255,.3) inset; }
+  #jg-career-game .jg-wheel { position:absolute; bottom:1px; width:10px; height:10px; border-radius:50%; background:radial-gradient(circle at 50% 50%,#f4fdff 0 22%,#0e2234 23% 50%,#b7fff1 52% 69%,#10212f 70%); border:1px solid rgba(129,255,231,.72); box-shadow:0 0 6px rgba(129,255,231,.22); }
+  #jg-career-game .jg-wheel-left { left:7px; }
+  #jg-career-game .jg-wheel-right { right:5px; }
+  #jg-career-game .jg-trail { position:absolute; left:-4px; top:15px; width:12px; height:3px; border-radius:6px; background:linear-gradient(90deg,rgba(112,239,213,0),rgba(112,239,213,.85)); opacity:.2; filter:blur(.5px); }
+  #jg-career-game .jg-person.jg-moving .jg-person-icon { animation:jg-scoot-bob .42s linear infinite; }
+  #jg-career-game .jg-person.jg-moving .jg-wheel { animation:jg-wheel-spin .42s linear infinite; }
+  #jg-career-game .jg-person.jg-moving .jg-trail { opacity:.9; animation:jg-trail-pulse .34s linear infinite; }
+  #jg-career-game .jg-person-rival { width:48px; height:42px; z-index:4; }
+  #jg-career-game .jg-person-rival .jg-person-icon { width:36px; height:24px; }
+  #jg-career-game .jg-person-rival .jg-rider-body { background:linear-gradient(180deg,#ffcfbf,#dc7474); left:11px; top:4px; width:10px; height:12px; }
+  #jg-career-game .jg-person-rival .jg-rider-body::before { width:8px; height:8px; left:1px; top:-6px; border-width:1.5px; border-color:#ffd8d5; box-shadow:none; }
+  #jg-career-game .jg-person-rival .jg-rider-body::after { background:#ffd0c9; width:10px; }
+  #jg-career-game .jg-person-rival .jg-handle { left:24px; top:7px; height:11px; background:#e9e7ff; box-shadow:3px -1px 0 0 #e9e7ff; }
+  #jg-career-game .jg-person-rival .jg-deck { left:10px; top:17px; width:18px; background:linear-gradient(90deg,#f1bab1,#fff0ea); }
+  #jg-career-game .jg-person-rival .jg-wheel { width:8px; height:8px; border-color:#ffd6d6; background:radial-gradient(circle at 50% 50%,#fff 0 20%,#34272c 21% 52%,#ffd3ce 54% 72%,#21171b 74%); }
+  #jg-career-game .jg-person-rival .jg-wheel-left { left:6px; }
+  #jg-career-game .jg-person-rival .jg-wheel-right { right:4px; }
   #jg-career-game .jg-person-rival .jg-person-name { font-size:9px; padding:0 5px; background:#7e474b; }
   #jg-career-game .jg-map-pause { z-index:12; position:absolute; inset:0; display:flex; align-items:center; justify-content:center; gap:13px; background:#06101bc4; color:#e8f6fd; font-weight:900; letter-spacing:3px; font-size:29px; }
   #jg-career-game .jg-map-pause span { color:#76f9cb; font-size:39px; }
@@ -143,6 +178,13 @@
   #jg-career-game .jg-toast.show { opacity:1; transform:translate(-50%,0); }
   @keyframes jg-blink { 50% { opacity:.43; box-shadow:0 0 0 7px #65f6c308; } }
   @keyframes jg-office-glow { 50% { box-shadow:0 0 0 1px #6be0bb77,0 0 37px #39d5ae66,0 6px 20px #0009; } }
+  @keyframes jg-sky-shift { 50% { filter:brightness(1.08) saturate(1.08); } }
+  @keyframes jg-airlane { from { transform:translateX(-5%); opacity:.1; } 50% { opacity:.55; } to { transform:translateX(85%); opacity:.1; } }
+  @keyframes jg-window-blink { 0%,100% { opacity:.28; } 40% { opacity:.48; } 60% { opacity:.2; } }
+  @keyframes jg-traffic { from { transform:translateX(-4%); } to { transform:translateX(-16%); } }
+  @keyframes jg-scoot-bob { 0%,100% { transform:scaleX(var(--jg-dir)) translateY(0); } 50% { transform:scaleX(var(--jg-dir)) translateY(-1.5px); } }
+  @keyframes jg-wheel-spin { from { transform:rotate(0); } to { transform:rotate(360deg); } }
+  @keyframes jg-trail-pulse { 0%,100% { opacity:.4; transform:scaleX(.65); } 50% { opacity:1; transform:scaleX(1); } }
   @media (max-width:1180px) {
     #jg-career-game .jg-layout { grid-template-columns:1fr; }
     #jg-career-game .jg-sidebar { display:grid; grid-template-columns:1fr 1fr; align-items:start; }
@@ -177,8 +219,8 @@
     #jg-career-game .jg-toast { bottom:10px; }
   }
   @media (prefers-reduced-motion:reduce) {
-    #jg-career-game .jg-office.jg-open, #jg-career-game .jg-live-dot { animation:none; }
-    #jg-career-game .jg-btn, #jg-career-game .jg-office { transition:none; }
+    #jg-career-game .jg-office.jg-open, #jg-career-game .jg-live-dot, #jg-career-game .jg-city-sky, #jg-career-game .jg-city-sky::before, #jg-career-game .jg-city-skyline::before, #jg-career-game .jg-city-traffic, #jg-career-game .jg-person.jg-moving .jg-person-icon, #jg-career-game .jg-person.jg-moving .jg-wheel, #jg-career-game .jg-person.jg-moving .jg-trail { animation:none; }
+    #jg-career-game .jg-btn, #jg-career-game .jg-office, #jg-career-game .jg-person-icon { transition:none; }
   }
 
   #jg-career-game .jg-move-controls {display:flex;align-items:center;gap:18px;background:#102436;border-top:1px solid #294254;padding:9px 14px;}
