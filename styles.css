@@ -79,6 +79,11 @@
   #jg-career-game .jg-office.jg-employed::after { content:"ВАША РАБОТА"; position:absolute; right:8px; top:-10px; border-radius:5px; background:#4b8ec9; color:#fff; font-weight:800; font-size:9px; letter-spacing:.35px; padding:3px 6px; box-shadow:0 2px 9px #0007; }
   #jg-career-game .jg-person { --jg-dir:1; position:absolute; z-index:5; width:58px; height:50px; transform:translate(-50%,-50%); display:flex; flex-direction:column; align-items:center; justify-content:center; pointer-events:none; filter:drop-shadow(0 6px 6px #0008); }
   #jg-career-game .jg-person-icon { width:44px; height:30px; position:relative; display:block; transform:scaleX(var(--jg-dir)); transform-origin:center; transition:transform .12s linear; }
+  #jg-career-game .jg-person-you[data-transport]:not([data-transport="unemployed"]) .jg-person-icon { width:58px; height:39px; }
+  #jg-career-game .jg-vehicle { width:100%; height:100%; overflow:visible; }
+  #jg-career-game .jg-cape { transform-origin:32px 14px; }
+  #jg-career-game .jg-moving .jg-cape { animation:jg-cape-wave .4s ease-in-out infinite alternate; }
+  @keyframes jg-cape-wave { from { transform:scaleY(.8); } to { transform:scaleY(1.15); } }
   #jg-career-game .jg-person-name { color:#fff; font-weight:900; font-size:10px; letter-spacing:.6px; text-shadow:0 1px 4px #000,0 1px 5px #000; background:#075344; border-radius:5px; padding:1px 6px; margin-top:2px; }
   #jg-career-game .jg-scooter { position:absolute; inset:0; display:block; }
   #jg-career-game .jg-scooter::before { content:""; position:absolute; left:6px; right:4px; bottom:2px; height:5px; border-radius:10px; background:radial-gradient(ellipse at center,rgba(99,239,202,.25),rgba(99,239,202,0) 72%); }
@@ -219,6 +224,7 @@
     #jg-career-game .jg-toast { bottom:10px; }
   }
   @media (prefers-reduced-motion:reduce) {
+    #jg-career-game .jg-moving .jg-cape { animation:none; }
     #jg-career-game .jg-office.jg-open, #jg-career-game .jg-live-dot, #jg-career-game .jg-city-sky, #jg-career-game .jg-city-sky::before, #jg-career-game .jg-city-skyline::before, #jg-career-game .jg-city-traffic, #jg-career-game .jg-person.jg-moving .jg-person-icon, #jg-career-game .jg-person.jg-moving .jg-wheel, #jg-career-game .jg-person.jg-moving .jg-trail { animation:none; }
     #jg-career-game .jg-btn, #jg-career-game .jg-office, #jg-career-game .jg-person-icon { transition:none; }
   }
