@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>JAVA CAREER RACE — тренажёр Java-разработчика</title>
 <link rel="stylesheet" href="./styles.css">
 <style>html,body{margin:0;min-height:100%;background:#071724}body{overflow-x:hidden}</style>
@@ -49,7 +49,7 @@
           <div><span class="jg-live-dot"></span><strong>КАРТА IT-ГОРОДА</strong><span class="jg-toolbar-muted">WASD / стрелки / клик · или нажмите на вакансию</span></div>
           <div class="jg-month-clock"><span>Следующий месяц</span><b id="jg-countdown">5.0 с</b></div>
         </div>
-        <div id="jg-map-window" class="jg-map-window" tabindex="0" aria-label="Игровая карта, на телефоне прокручивается горизонтально">
+        <div id="jg-map-window" class="jg-map-window" tabindex="0" aria-label="Игровая карта, на телефоне перемещается свайпом">
           <div id="jg-map-sizer" class="jg-map-sizer">
             <div id="jg-map-world" class="jg-map-world">
               <div class="jg-city-sky" aria-hidden="true"></div>
@@ -103,9 +103,9 @@
           <div class="jg-move-dpad"><button type="button" data-move="up" aria-label="Вверх">↑</button>
             <div><button type="button" data-move="left" aria-label="Влево">←</button><button type="button" data-move="down" aria-label="Вниз">↓</button><button type="button" data-move="right" aria-label="Вправо">→</button></div>
           </div>
-          <div class="jg-move-help"><p><b>Управление:</b> WASD / стрелки, клик по карте или кнопки. <b>E</b> — интервью у офиса. Клик по вакансии — автобег.</p><button type="button" id="jg-interact" class="jg-btn jg-btn-primary jg-hidden">⏎ Собеседование</button></div>
+          <div class="jg-move-help"><p class="jg-desktop-help"><b>Управление:</b> WASD / стрелки, клик по карте или кнопки. <b>E</b> — интервью у офиса. Клик по вакансии — автобег.</p><p class="jg-touch-help">Удерживайте стрелки для движения. Нажмите на офис или «Бежать» в вакансии — герой поедет сам.</p><button type="button" id="jg-interact" class="jg-btn jg-btn-primary jg-hidden">⏎ Собеседование</button></div>
         </div>
-        <div class="jg-map-caption"><span><i class="jg-legend-pulse"></i> Открытая вакансия</span><span><i class="jg-legend-you"></i> Ваш персонаж</span><span><i class="jg-legend-rival"></i> Другие кандидаты</span><span class="jg-scroll-tip">На телефоне: стрелки под картой, свайп ↔</span></div>
+        <div class="jg-map-caption"><span><i class="jg-legend-pulse"></i> Открытая вакансия</span><span><i class="jg-legend-you"></i> Ваш персонаж</span><span><i class="jg-legend-rival"></i> Другие кандидаты</span><span class="jg-scroll-tip">Карта: свайп в любую сторону</span></div>
       </main>
 
       <aside class="jg-sidebar">

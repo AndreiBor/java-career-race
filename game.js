@@ -184,6 +184,7 @@ let quizBank920 = [];
   let interview=null, questionRemaining=0, startupUnlocked=false, rivals=[];
   let feed=[], toastLeft=0, framePrevious=0, mapScale=1, followTime=0;
   let gameInView=true, lastContact=null, mousePointStart=null;
+  let cameraHoldUntil=0, mapDragging=false;
   const keys = new Set(), touchKeys = new Set();
   const player = {x:560,y:577,speed:RIVAL_SPEED*SPEED_PER_LEVEL};
   const officeNodes = new Map();
@@ -345,9 +346,12 @@ let quizBank920 = [];
     return dist<=step+1;
   }
   function followPlayer(immediate=false){
-    if(mapSizer.clientWidth<=mapWindow.clientWidth+1)return;
-    const want=clamp(player.x*mapScale-mapWindow.clientWidth*.5,0,mapSizer.clientWidth-mapWindow.clientWidth);
-    mapWindow.scrollLeft=immediate?want:mapWindow.scrollLeft+(want-mapWindow.scrollLeft)*.15;
+    // Give a swipe time to finish before the camera follows the player again.
+    if(!immediate&&(mapDragging||performance.now()<cameraHoldUntil))return;
+    const x=clamp(player.x*mapScale-mapWindow.clientWidth*.5,0,Math.max(0,mapSizer.clientWidth-mapWindow.clientWidth));
+    const y=clamp(player.y*mapScale-mapWindow.clientHeight*.5,0,Math.max(0,mapSizer.clientHeight-mapWindow.clientHeight));
+    mapWindow.scrollLeft=immediate?x:mapWindow.scrollLeft+(x-mapWindow.scrollLeft)*.3;
+    mapWindow.scrollTop=immediate?y:mapWindow.scrollTop+(y-mapWindow.scrollTop)*.3;
   }
   function runTo(id){
     if(mode!=='running'||paused)return;
@@ -460,11 +464,14 @@ let quizBank920 = [];
   function showDialog(html,kind){
     mode=kind;keys.clear();touchKeys.clear();
     $('jg-dialog').innerHTML=html;
+    $('jg-dialog').scrollTop=0;
+    root.dataset.dialog=kind;
     $('jg-overlay').classList.toggle('jg-hidden',kind==='intro'&&!gameInView);
     $('jg-pause').disabled=true;
   }
   function closeDialog(){
     $('jg-overlay').classList.add('jg-hidden');$('jg-dialog').innerHTML='';
+    delete root.dataset.dialog;
     mode='running';$('jg-pause').disabled=false;framePrevious=performance.now();
   }
   function chooseDifficulty(value){
@@ -488,11 +495,7 @@ let quizBank920 = [];
       <div class="jg-dialog-actions"><button type="button" class="jg-btn jg-btn-primary" data-action="start">НАЧАТЬ ИГРУ →</button></div>
       <p class="jg-start-budget">Банк: ${quizBank920.length} из 920 вопросов из CSV + дополнительные игровые задания. ${bankLoadError?"Внимание: банк недоступен в этом браузере.":"Категория вопроса показывается на собеседовании."}</p>
       <div class="jg-rules">
-        <div class="jg-rule"><b>Свободное движение</b><span>WASD, стрелки, клик или кнопки. Возле офиса нажмите E для интервью. Клик по вакансии — автобег.</span></div>
-        <div class="jg-rule"><b>Транспорт и скорость</b><span>Самокат → велосипед → мотоцикл → автомобиль → полёт в красном плаще. На старте вы на 10% быстрее других соискателей; каждый грейд даёт ещё 10% к скорости предыдущего.</span></div>
-        <div class="jg-rule"><b>920 вопросов в банке · от 1 до 4 за интервью</b><span>Middle — 1; Middle+ — 2; Senior — 3; Tech Lead — 4.</span></div>
-        <div class="jg-rule"><b>5 секунд = месяц</b><span>Зарплата минус расходы на жизнь. Во время собеседования часы стоят.</span></div>
-        <div class="jg-rule"><b>ИИ ждёт ${AI_REPLACEMENT_MONTHS} месяца</b><span>Если не перешли на новую позицию — потеряете работу и зарплату.</span></div>
+        <div class="jg-rule"><b>1 месяц = 5 секунд</b><span>Каждый месяц списываются расходы на жизнь<br>Во время собеседования часы стоят<br>Деньги закончились - проиграл</span></div>
       </div>`, 'intro');
     chooseDifficulty(difficulty);
   }
@@ -645,10 +648,11 @@ let quizBank920 = [];
   }
   function resizeMap(){
     const space=mapWindow.clientWidth;
-    const mobile=window.innerWidth<710;
+    const mobile=window.matchMedia("(max-width:710px), (max-width:1000px) and (max-height:500px)").matches;
     mapScale=Math.min(1,Math.max(mobile?.80:.61,space/W));
     mapSizer.style.width=W*mapScale+'px';mapSizer.style.height=H*mapScale+'px';
     mapWorld.style.transform='scale('+mapScale+')';
+    followPlayer(true);
   }
   function reset(){
     paused=false;mode='intro';month=1;monthElapsed=0;
@@ -699,7 +703,7 @@ let quizBank920 = [];
   }
 
   $('jg-offices').addEventListener('click',event=>{
-    const el=event.target.closest('[data-company]');if(!el||mode!=='running')return;
+    const el=event.target.closest('[data-company]');if(!el||mode!=='running'||mapDragging||performance.now()<cameraHoldUntil)return;
     if(paused){toast('Снимите игру с паузы.');return;}
     const c=companyById(el.dataset.company);
     if(!c.jobs.length){toast('В '+c.name+' сейчас нет вакансий.');return;}
@@ -713,11 +717,21 @@ let quizBank920 = [];
     mousePointStart={x:event.clientX,y:event.clientY,at:performance.now()};
   });
   mapWorld.addEventListener('click',event=>{
-    if(event.target.closest('[data-company]')||mode!=='running'||paused)return;
+    if(event.target.closest('[data-company]')||mode!=='running'||paused||mapDragging||performance.now()<cameraHoldUntil)return;
     if(mousePointStart&&Math.hypot(event.clientX-mousePointStart.x,event.clientY-mousePointStart.y)>10)return;
     const r=mapWorld.getBoundingClientRect();
     moveToPoint((event.clientX-r.left)/mapScale,(event.clientY-r.top)/mapScale);
   });
+  mapWindow.addEventListener('pointerdown',()=>{mapDragging=true;});
+  mapWindow.addEventListener('pointermove',event=>{
+    if(mapDragging&&mousePointStart&&Math.hypot(event.clientX-mousePointStart.x,event.clientY-mousePointStart.y)>10){
+      cameraHoldUntil=performance.now()+1500;
+    }
+  });
+  const endMapDrag=()=>{mapDragging=false;};
+  window.addEventListener('pointerup',endMapDrag);
+  window.addEventListener('pointercancel',endMapDrag);
+  mapWindow.addEventListener('wheel',()=>{cameraHoldUntil=performance.now()+1500;},{passive:true});
   const keyMap={ArrowUp:'up',ArrowDown:'down',ArrowLeft:'left',ArrowRight:'right',
     KeyW:'up',KeyS:'down',KeyA:'left',KeyD:'right'};
   window.addEventListener('keydown',event=>{
@@ -733,7 +747,17 @@ let quizBank920 = [];
     event.preventDefault();keys.add(dir);
   });
   window.addEventListener('keyup',event=>{if(keyMap[event.code])keys.delete(keyMap[event.code]);});
-  window.addEventListener('blur',()=>{keys.clear();touchKeys.clear();});
+  window.addEventListener('blur',clearMovement);
+  function clearMovement(){
+    keys.clear();touchKeys.clear();mapDragging=false;
+    root.querySelectorAll('.jg-pressed').forEach(b=>b.classList.remove('jg-pressed'));
+  }
+  document.addEventListener('visibilitychange',()=>{
+    if(document.hidden){
+      clearMovement();
+      if(mode==='running'&&!paused)$('jg-pause').click();
+    }
+  });
   $('jg-move-controls').addEventListener('pointerdown',event=>{
     const b=event.target.closest('[data-move]');
     if(!b||mode!=='running'||paused)return;
@@ -754,7 +778,14 @@ let quizBank920 = [];
     const action=event.target.closest('[data-action]')?.dataset.action;
     if(!action)return;
     if(action==='start'){
-      cash=currentSetting().start;renderStats();closeDialog();return;
+      cash=currentSetting().start;renderStats();closeDialog();
+      if(window.matchMedia('(max-width:710px), (max-width:1000px) and (max-height:500px)').matches){
+        const controls=$('jg-move-controls').getBoundingClientRect();
+        if(controls.bottom>window.innerHeight){
+          root.querySelector('.jg-offer-card').scrollIntoView({block:'start'});
+        }
+      }
+      return;
     }
     if(action==='continue'){closeDialog();return;}
     if(action==='restart'){reset();return;}

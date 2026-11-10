@@ -162,7 +162,7 @@
   #jg-career-game .jg-dialog .jg-dialog-info { border-left:3px solid #75f0c6; background:#244e4555; color:#c9f4e3; padding:11px 12px; border-radius:0 8px 8px 0; margin:15px 0; font-size:13px; }
   #jg-career-game .jg-dialog-actions { display:flex; flex-wrap:wrap; gap:10px; margin-top:22px; }
   #jg-career-game .jg-dialog-actions .jg-btn { min-height:44px; }
-  #jg-career-game .jg-rules { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:21px 0; }
+  #jg-career-game .jg-rules { display:grid; grid-template-columns:1fr; gap:10px; margin:21px 0; }
   #jg-career-game .jg-rule { border:1px solid #355161; background:#112a37; border-radius:9px; padding:12px; }
   #jg-career-game .jg-rule b { display:block; color:#e4f8f6; margin-bottom:4px; font-size:13px; }
   #jg-career-game .jg-rule span { color:#9eb8c9; font-size:12px; }
@@ -260,3 +260,92 @@
     #jg-career-game .jg-difficulty {min-height:0;padding:11px 13px;gap:3px;}
     #jg-career-game .jg-code {font-size:11px;}
   }
+
+/* Responsive play area and touch targets. Keep the world readable; pan the camera. */
+#jg-career-game { -webkit-text-size-adjust:100%; }
+#jg-career-game .jg-touch-help { display:none; }
+#jg-career-game .jg-heading,
+#jg-career-game .jg-move-help,
+#jg-career-game .jg-sidebar { min-width:0; }
+#jg-career-game button { touch-action:manipulation; }
+#jg-career-game .jg-move-dpad button { touch-action:none; width:46px; height:44px; }
+#jg-career-game .jg-btn,
+#jg-career-game .jg-offer button,
+#jg-career-game .jg-answer { min-height:44px; }
+#jg-career-game .jg-answer span { min-width:0; overflow-wrap:anywhere; }
+#jg-career-game .jg-dialog { max-height:min(90dvh,840px); overscroll-behavior:contain; overflow-wrap:anywhere; }
+#jg-career-game .jg-code { max-width:100%; overscroll-behavior-x:contain; }
+#jg-career-game .jg-startup-textarea { font-size:16px; }
+#jg-career-game .jg-overlay {
+  padding:max(12px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) max(12px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left));
+}
+@media (max-width:1180px) {
+  #jg-career-game .jg-header { flex-wrap:wrap; }
+  #jg-career-game .jg-toolbar-muted { display:none; }
+}
+@media (pointer:coarse) {
+  #jg-career-game .jg-touch-help { display:block; }
+  #jg-career-game .jg-desktop-help { display:none; }
+  #jg-career-game .jg-move-dpad button { width:48px; height:48px; }
+  #jg-career-game .jg-city-traffic,
+  #jg-career-game .jg-city-sky,
+  #jg-career-game .jg-city-skyline,
+  #jg-career-game .jg-office.jg-open { animation:none; }
+  #jg-career-game .jg-overlay { backdrop-filter:none; }
+}
+@media (max-width:710px), (max-width:1000px) and (max-height:500px) {
+  #jg-career-game .jg-shell { padding:10px; }
+  #jg-career-game .jg-header { gap:8px; margin-bottom:10px; }
+  #jg-career-game .jg-kicker { flex-wrap:wrap; gap:5px; letter-spacing:.6px; margin-bottom:5px; }
+  #jg-career-game h2 { display:none; }
+  #jg-career-game .jg-heading p { display:none; }
+  #jg-career-game .jg-header-actions { gap:6px; }
+  #jg-career-game .jg-header-actions .jg-btn { padding:8px; white-space:normal; }
+  #jg-career-game .jg-stats { margin-bottom:10px; }
+  #jg-career-game .jg-stat { padding:7px 10px; }
+  #jg-career-game .jg-stat-number { font-size:clamp(17px,5.4vw,24px); }
+  #jg-career-game .jg-stat-desc { display:none; }
+  #jg-career-game .jg-layout { display:flex; flex-direction:column; }
+  #jg-career-game .jg-sidebar { display:contents; }
+  #jg-career-game .jg-map-section { width:100%; }
+  #jg-career-game .jg-offer-card { order:-1; }
+  #jg-career-game .jg-side-card { width:100%; min-width:0; padding:10px; }
+  #jg-career-game .jg-side-title { margin-bottom:8px; }
+  #jg-career-game .jg-offer-list { flex-direction:row; min-height:0; max-height:none; overflow-x:auto; overflow-y:hidden; overscroll-behavior-x:contain; }
+  #jg-career-game .jg-offer { flex:0 0 260px; padding:8px; }
+  #jg-career-game .jg-offer-name { white-space:normal; line-height:1.35; }
+  #jg-career-game .jg-offer button { font-size:12px; }
+  #jg-career-game .jg-section-toolbar { flex-wrap:wrap; gap:6px; padding:8px 10px; min-height:38px; }
+  #jg-career-game .jg-month-clock { margin-left:auto; }
+  #jg-career-game .jg-map-window { height:clamp(200px,28vh,320px); height:clamp(200px,28svh,320px); overflow:auto; overscroll-behavior:contain; touch-action:pan-x pan-y pinch-zoom; }
+  #jg-career-game .jg-move-controls { justify-content:space-between; gap:12px; padding:10px; }
+  #jg-career-game .jg-move-dpad { gap:5px; }
+  #jg-career-game .jg-move-dpad>div { gap:5px; }
+  #jg-career-game .jg-move-dpad button { width:46px; height:46px; border-radius:10px; }
+  #jg-career-game .jg-move-controls p { font-size:12px; }
+  #jg-career-game .jg-move-help .jg-btn { font-size:13px; width:100%; margin-top:6px; }
+  #jg-career-game .jg-touch-help { display:block; }
+  #jg-career-game .jg-desktop-help { display:none; }
+  #jg-career-game .jg-map-caption { flex-wrap:wrap; gap:8px; padding:8px 10px; }
+  #jg-career-game .jg-dialog { padding:18px; border-radius:14px; max-height:calc(100dvh - 32px - env(safe-area-inset-top) - env(safe-area-inset-bottom)); }
+  #jg-career-game .jg-dialog-actions .jg-btn { width:100%; white-space:normal; }
+  #jg-career-game .jg-question { font-size:17px !important; }
+  #jg-career-game .jg-answer { font-size:14px; }
+  #jg-career-game .jg-code { font-size:12px; padding:10px; }
+  #jg-career-game .jg-toast { position:fixed; bottom:max(12px,env(safe-area-inset-bottom)); }
+}
+@media (max-height:500px) and (orientation:landscape) {
+  #jg-career-game .jg-dialog { max-height:calc(100dvh - 24px); padding:16px; }
+  #jg-career-game .jg-overlay { padding:10px; }
+}
+
+@media (max-width:1000px) and (max-height:500px) and (orientation:landscape) {
+  #jg-career-game .jg-stats { grid-template-columns:repeat(4,minmax(0,1fr)); }
+  #jg-career-game .jg-map-section { display:grid; grid-template-columns:minmax(0,1fr) 180px; }
+  #jg-career-game .jg-section-toolbar,
+  #jg-career-game .jg-map-caption { grid-column:1 / -1; }
+  #jg-career-game .jg-map-window { height:clamp(180px,55svh,260px); }
+  #jg-career-game .jg-move-controls { flex-direction:column; justify-content:center; border-top:0; border-left:1px solid #294254; padding:8px; gap:8px; }
+  #jg-career-game .jg-move-help p { display:none; }
+  #jg-career-game .jg-stat-number { font-size:20px; }
+}
