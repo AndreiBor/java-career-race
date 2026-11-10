@@ -162,11 +162,20 @@ let quizBank920 = [];
   }
 
   const seenQuestions = new Set();
+  const RIVAL_SPEED = 100;
+  const SPEED_PER_LEVEL = 1.1;
+  const TRANSPORTS = {
+    unemployed: {label:'Самокат',rank:0},
+    middle: {label:'Велосипед',rank:1},
+    middleplus: {label:'Мотоцикл',rank:2},
+    senior: {label:'Автомобиль',rank:3},
+    lead: {label:'Полёт в красном плаще',rank:4}
+  };
   const initialRivals = [
-    {x:54,y:580,speed:90,name:'A1'},
-    {x:1070,y:576,speed:99,name:'A2'},
-    {x:55,y:182,speed:97,name:'A3'},
-    {x:1045,y:180,speed:92,name:'A4'}
+    {x:54,y:580,speed:RIVAL_SPEED,name:'A1'},
+    {x:1070,y:576,speed:RIVAL_SPEED,name:'A2'},
+    {x:55,y:182,speed:RIVAL_SPEED,name:'A3'},
+    {x:1045,y:180,speed:RIVAL_SPEED,name:'A4'}
   ];
 
   let difficulty='easy', mode='intro', paused=false, month=1, monthElapsed=0;
@@ -176,7 +185,7 @@ let quizBank920 = [];
   let feed=[], toastLeft=0, framePrevious=0, mapScale=1, followTime=0;
   let gameInView=true, lastContact=null, mousePointStart=null;
   const keys = new Set(), touchKeys = new Set();
-  const player = {x:560,y:577,speed:252};
+  const player = {x:560,y:577,speed:RIVAL_SPEED*SPEED_PER_LEVEL};
   const officeNodes = new Map();
   const playerNode=$('jg-player'), routeLine=$('jg-route-line');
   const mapWindow=$('jg-map-window'),mapWorld=$('jg-map-world'),mapSizer=$('jg-map-sizer');
@@ -184,6 +193,33 @@ let quizBank920 = [];
 
   function scooterMarkup(label){
     return `<div class="jg-person-icon"><span class="jg-scooter"><span class="jg-rider-body"></span><span class="jg-handle"></span><span class="jg-deck"></span><span class="jg-wheel jg-wheel-left"></span><span class="jg-wheel jg-wheel-right"></span><span class="jg-trail"></span></span></div><div class="jg-person-name">${safe(label)}</div>`;
+  }
+  function transportMarkup(level){
+    if(level==='unemployed')return scooterMarkup('ВЫ');
+    const wheels='<g fill="#10212f" stroke="#b7fff1" stroke-width="2"><circle cx="10" cy="27" r="7"/><circle cx="42" cy="27" r="7"/></g>';
+    const rider='<circle cx="26" cy="5" r="4" fill="#fff0dc"/><path d="M25 11 L20 18 L29 23 L25 29 M23 13 L35 16" fill="none" stroke="#79f4ca" stroke-width="4" stroke-linecap="round"/>';
+    const drawings={
+      middle: wheels+'<path d="M10 27 L19 16 L29 27 Z M19 16 H36 L42 27 M29 27 L36 12 H40 M16 15 H23" fill="none" stroke="#66d9ff" stroke-width="2"/>'+rider,
+      middleplus: wheels+'<path d="M10 23 L18 17 H31 L36 23 L25 26 Z" fill="#f6c75d" stroke="#ffe4a4" stroke-width="2"/><path d="M42 27 L36 12 H40 M12 16 H23" fill="none" stroke="#eafaff" stroke-width="3"/>'+rider,
+      senior: '<path d="M3 19 L12 16 L19 7 H34 L42 16 L50 19 V28 H3 Z" fill="#64b8ff" stroke="#c9edff" stroke-width="2"/><path d="M17 16 L22 10 H32 L37 16 Z" fill="#102b42"/><path d="M27 10 V16" stroke="#c9edff"/>'+wheels+'<path d="M46 20 H50" stroke="#fff4b3" stroke-width="3"/>',
+      lead: '<path class="jg-cape" d="M30 11 Q15 7 1 15 L7 20 L1 25 Q20 25 34 17 Z" fill="#ef334d" stroke="#ff8290" stroke-width="1"/><path d="M27 17 L15 23 M29 19 L19 29" stroke="#6dbbff" stroke-width="5" stroke-linecap="round"/><path d="M26 15 L36 12" stroke="#6dbbff" stroke-width="8" stroke-linecap="round"/><circle cx="39" cy="8" r="5" fill="#fff0dc"/><path d="M32 13 L47 6 L51 6" fill="none" stroke="#fff0dc" stroke-width="3" stroke-linecap="round"/><path d="M30 13 L34 14 L31 17 Z" fill="#ffd760"/>'
+    };
+    return `<div class="jg-person-icon"><svg class="jg-vehicle" viewBox="0 0 54 36" aria-hidden="true">${drawings[level]}</svg></div><div class="jg-person-name">ВЫ</div>`;
+  }
+  function renderTransport(){
+    const level=job?job.level:'unemployed';
+    const transport=TRANSPORTS[level];
+    // Every grade is 10% faster than the preceding grade, starting at +10% over rivals.
+    player.speed=RIVAL_SPEED*Math.pow(SPEED_PER_LEVEL,transport.rank+1);
+    if(playerNode.dataset.transport!==level){
+      playerNode.innerHTML=transportMarkup(level);
+      playerNode.dataset.transport=level;
+    }
+    playerNode.title=`${job?job.roleLabel:'Соискатель'} · ${transport.label}`;
+    const status=document.createElement('div');
+    status.className='jg-job-small';
+    status.textContent=`${transport.label} · скорость ×${(player.speed/RIVAL_SPEED).toFixed(2)}`;
+    $('jg-current-job').appendChild(status);
   }
   function setPersonMotion(node, dx, moving){
     if(!node)return;
@@ -271,6 +307,7 @@ let quizBank920 = [];
     $('jg-month').textContent=String(month).padStart(2,'0');
     $('jg-skill').textContent='Переходов: '+(skill-1);
     renderCareer();
+    renderTransport();
   }
   function renderAll(){renderOffices();renderOffers();renderStats();}
   function createVacancy(c,role){
@@ -452,6 +489,7 @@ let quizBank920 = [];
       <p class="jg-start-budget">Банк: ${quizBank920.length} из 920 вопросов из CSV + дополнительные игровые задания. ${bankLoadError?"Внимание: банк недоступен в этом браузере.":"Категория вопроса показывается на собеседовании."}</p>
       <div class="jg-rules">
         <div class="jg-rule"><b>Свободное движение</b><span>WASD, стрелки, клик или кнопки. Возле офиса нажмите E для интервью. Клик по вакансии — автобег.</span></div>
+        <div class="jg-rule"><b>Транспорт и скорость</b><span>Самокат → велосипед → мотоцикл → автомобиль → полёт в красном плаще. На старте вы на 10% быстрее других соискателей; каждый грейд даёт ещё 10% к скорости предыдущего.</span></div>
         <div class="jg-rule"><b>920 вопросов в банке · от 1 до 4 за интервью</b><span>Middle — 1; Middle+ — 2; Senior — 3; Tech Lead — 4.</span></div>
         <div class="jg-rule"><b>5 секунд = месяц</b><span>Зарплата минус расходы на жизнь. Во время собеседования часы стоят.</span></div>
         <div class="jg-rule"><b>ИИ ждёт ${AI_REPLACEMENT_MONTHS} месяца</b><span>Если не перешли на новую позицию — потеряете работу и зарплату.</span></div>
@@ -464,6 +502,7 @@ let quizBank920 = [];
       <p>Герой свободно перемещается по карте по WASD/стрелкам, экранным кнопкам или клику на местности. Нажмите на светящийся офис или «Бежать» возле оффера, чтобы герой сам прибежал. Подойдя к офису вручную, нажмите E или кнопку «Собеседование» под картой.</p>
       <p>Middle — 1 вопрос (160–250 тыс. ₽). Middle+ — 2 вопроса, включая код (250–350 тыс.). Senior — 3, включая инцидент/архитектуру (350–500 тыс.). Tech Lead — 4, включая System Design (500 тыс.–1 млн).</p>
       <p>Неправильный ответ останавливает попытку: появляется верный вариант и разбор. Весь игровой мир стоит, пока открыто интервью или разбор.</p>
+      <p>Без работы вы едете на самокате на 10% быстрее других соискателей. Middle — велосипед, Middle+ — мотоцикл, Senior — автомобиль, Tech Lead — полёт в красном плаще. Каждый грейд увеличивает скорость предыдущего на 10%. При потере работы возвращаются самокат и начальная скорость.</p>
       <p>Каждый месяц занимает 5 секунд. Траты: <b>${fmt(currentCost())}</b>, цель: <b>${fmt(currentGoal())}</b>. Через ${AI_REPLACEMENT_MONTHS} месяца на одной работе сотрудника вытесняет ИИ. После накопления цели можно открыть стартап.</p>
       <div class="jg-dialog-actions"><button type="button" class="jg-btn jg-btn-primary" data-action="continue">Вернуться в город</button></div>`,'help');
   }
@@ -520,7 +559,7 @@ let quizBank920 = [];
       if(interview.index<plan.length){renderQuestion();return;}
       interview=null;
       const c=companyById(v.companyId);const old=job;
-      job={companyId:c.id,roleName:v.roleName,roleLabel:v.roleLabel,paidSalary:v.salary};
+      job={companyId:c.id,level:v.level,roleName:v.roleName,roleLabel:v.roleLabel,paidSalary:v.salary};
       hiredAtMonth=month;skill++;
       removeVacancy(vacancyId,'hired');renderAll();
       addLog((old?'Новая работа: ':'Первая работа: ')+c.name+', '+fmt(v.salary)+'/мес.','good');
@@ -620,7 +659,7 @@ let quizBank920 = [];
     keys.clear();touchKeys.clear();
     companies.forEach(c=>{c.jobs=[];});
     player.x=560;player.y=577;
-    playerNode.innerHTML=scooterMarkup('ВЫ');
+    delete playerNode.dataset.transport;
     setPersonMotion(playerNode,1,true);
     playerNode.style.left=player.x+'px';playerNode.style.top=player.y+'px';
     initializeRivals();
